@@ -5,10 +5,15 @@ int main()
   ifstream f("easyquery.in");
   int n; f >> n;
   int* a = new int[n];
-  for (int i = 0; i < n; i++) f >> a[i];
   int* b = new int[n+1];
-  b[0] = a[0], b[n] = 0;
-  for (int i = 1; i < n; i++) b[i] = a[i] - a[i-1];
+  long long s = 0;
+  for (int i = 0; i < n; i++)
+  {
+    f >> a[i];
+    b[i] = a[i] - s;
+    s += b[i];
+  }
+  b[n] = 0;
   int T; f >> T;
   for (int i = 0; i < T; i++)
   {
@@ -18,11 +23,15 @@ int main()
     b[x] += p, b[y+1] -= p;
   }
   f.close();
-  a[0] = b[0];
-  for (int i = 1; i < n; i++) a[i] = a[i-1] + b[i];
   ofstream g("easyquery.out");
-  for (int i = 0; i < n; i++) g << a[i] << ' ';
+  s = 0;
+  for (int i = 0; i < n; i++)
+  {
+    s += b[i];
+    g << s << ' ';
+  }
   g.close();
   return 0;
 }
+
 
